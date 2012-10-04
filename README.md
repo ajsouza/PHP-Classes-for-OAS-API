@@ -3,7 +3,7 @@ This is an attempt to create a full PHP library for 247Media's Open AdStream. Th
 
 Sample Usage
 ============ 
-The example below shows how you would use the Advertiser entity to retrieve all advertisers whose name is like OAS.
+The example below shows how you would use the Advertiser entity to retrieve all advertisers whose name is like %A%.
 
 ```PHP
 <?php
@@ -16,8 +16,14 @@ $OASSvc->account = "[YOUR OAS ACCOUNT]";
 $OASSvc->user = "[YOUR USER]";
 $OASSvc->pass = "[YOUR PASS]";
 
-$Advertiser->Organization = "OAS";
-echo $OASSvc->findall($Advertiser);
+$Advertiser->Organization = "A";
+$OASSvc->search($Advertiser);
+foreach( $Advertiser->instances as $inst ) {
+	echo $inst->Id . "\n";
+	echo $inst->Organization . "\n";
+	echo $inst->WhoCreated . "\n";
+	echo $inst->WhenCreated . "\n\n";
+}
 ?>
 ```
 
