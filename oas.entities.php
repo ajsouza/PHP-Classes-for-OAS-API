@@ -112,7 +112,7 @@ class Advertiser extends OASEntity {
 		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
 		$xml = $websvc->requestXML($tmpxml);
 		
-		$nodes = $xml->getElementsByTagName ("Advertiser");
+		$nodes = $xml->getElementsByTagName("Advertiser");
 		$nodeListLength = $nodes->length;
 		for ($i = 0; $i < $nodeListLength; $i ++)
 		{
