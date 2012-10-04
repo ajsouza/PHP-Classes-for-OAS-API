@@ -33,11 +33,11 @@ class OASWebService{
   public function update($oasentity){
 	return $this->request($oasentity->update());
   }
-  public function findID($oasentity){
-	$oasentity->map($this->requestXML($oasentity->findIDXML()));
+  public function find($oasentity){
+	$oasentity->map($this->requestXML($oasentity->find($oasentity->Id)), $oasentity, 0);
   }
   public function search($oasentity){
-	return $this->requestXML($oasentity->search());
+	$oasentity->build_search_results($this->requestXML($oasentity->search()), $this);
   }
 }
 
@@ -52,12 +52,12 @@ abstract class OASEntity{
 
 	abstract public function create();
 	abstract public function update();
-	abstract public function searchXML();
-	abstract public function findIDXML();
+	abstract public function search();
+	abstract public function find($Id, $headless = false);
 	
 	abstract public function entity_def();
 	abstract public function clean_instance(&$inst);
-	abstract public function map($xml);
+	abstract public function map($xml, &$inst, $i);
 	
 	public function adxml() {
 	  $this->entity = $this->entity_def();
@@ -68,13 +68,6 @@ abstract class OASEntity{
 	  $this->clean_instance($this->entity);
 	  
 	  return $this->build_xml($this->entity);
-	}
-	
-	public function findID(){
-		$this->map($this->findIDXML());
-	}
-	
-	public function search(){
 	}
 	
 	private function build_xml(&$inst){

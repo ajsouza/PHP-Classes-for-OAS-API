@@ -81,15 +81,20 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function findIDXML(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
-		$xml .= $this->adxml();
-		$xml .= '</Advertiser></Database></Request></AdXML>';
-		
+	public function find($Id, $headless = false){
+		if($headless) {
+			$xml = '<Request type="Advertiser"><Database action="read"><Advertiser>';
+			$xml .= '<Id>' . $Id . '</Id>';
+			$xml .= '</Advertiser></Database></Request>';
+		} else {
+			$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
+			$xml .= '<Id>' . $Id . '</Id>';
+			$xml .= '</Advertiser></Database></Request></AdXML>';
+		}
 		return $xml;
 	}
 	
-	public function searchXML(){
+	public function search(){
 		$xml = '<AdXML><Request type="Advertiser"><Database action="list"><SearchCriteria>';
 		$xml .= $this->adxml();
 		$xml .= '</SearchCriteria></Database></Request></AdXML>';
@@ -97,31 +102,51 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function map($xml){		
-		$this->Id = $xml->getElementsByTagName('Id')->item(0)->nodeValue;
-		$this->Organization = $xml->getElementsByTagName('Organization')->item(0)->nodeValue;
-		$this->Notes = $xml->getElementsByTagName('Notes')->item(0)->nodeValue;
-		$this->ContactFirstName = $xml->getElementsByTagName('ContactFirstName')->item(0)->nodeValue;
-		$this->ContactLastName = $xml->getElementsByTagName('ContactLastName')->item(0)->nodeValue;
-		$this->ContactTitle = $xml->getElementsByTagName('ContactTitle')->item(0)->nodeValue;
-		$this->Email = $xml->getElementsByTagName('Email')->item(0)->nodeValue;
-		$this->Phone = $xml->getElementsByTagName('Phone')->item(0)->nodeValue;
-		$this->Fax = $xml->getElementsByTagName('Fax')->item(0)->nodeValue;
-		$this->UserId = null;
-		$this->BillingMethod = null;
-		$this->Address = null;
-		$this->City = null;
-		$this->State = null;
-		$this->Country = null;
-		$this->Zip = null;
-		$this->BillingEmail = null;
-		$this->InternalQuickReport = null;
-		$this->ExternalQuickReport = null;
+	public function build_search_results($xml, $websvc){
+	    $nodeList = $xml->getElementsByTagName('Id');
+		$tmpxml = null;
 		
-		$this->WhoCreated = $xml->getElementsByTagName('WhoCreated')->item(0)->nodeValue;
-		$this->WhenCreated = $xml->getElementsByTagName('WhenCreated')->item(0)->nodeValue;
-		$this->WhoModified = $xml->getElementsByTagName('WhoModified')->item(0)->nodeValue;
-		$this->WhenModified = $xml->getElementsByTagName('WhenModified')->item(0)->nodeValue;
+		foreach( $nodeList as $node )
+			$tmpxml .= $this->find($node->nodeValue, true);
+			
+		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
+		$xml = $websvc->requestXML($tmpxml);
+		
+		$nodes = $xml->getElementsByTagName ("Advertiser");
+		$nodeListLength = $nodes->length;
+		for ($i = 0; $i < $nodeListLength; $i ++)
+		{
+			$tmp = new Advertiser();
+			$tmp->map($xml, $tmp, $i);
+			$this->instances[] = $tmp;
+		}
+	}
+	
+	public function map($xml, &$inst, $i){
+		$inst->Id = $xml->getElementsByTagName('Id')->item($i)->nodeValue;
+		$inst->Organization = $xml->getElementsByTagName('Organization')->item($i)->nodeValue;
+		$inst->Notes = $xml->getElementsByTagName('Notes')->item($i)->nodeValue;
+		$inst->ContactFirstName = $xml->getElementsByTagName('ContactFirstName')->item($i)->nodeValue;
+		$inst->ContactLastName = $xml->getElementsByTagName('ContactLastName')->item($i)->nodeValue;
+		$inst->ContactTitle = $xml->getElementsByTagName('ContactTitle')->item($i)->nodeValue;
+		$inst->Email = $xml->getElementsByTagName('Email')->item($i)->nodeValue;
+		$inst->Phone = $xml->getElementsByTagName('Phone')->item($i)->nodeValue;
+		$inst->Fax = $xml->getElementsByTagName('Fax')->item($i)->nodeValue;
+		$inst->UserId = null;
+		$inst->BillingMethod = null;
+		$inst->Address = null;
+		$inst->City = null;
+		$inst->State = null;
+		$inst->Country = null;
+		$inst->Zip = null;
+		$inst->BillingEmail = null;
+		$inst->InternalQuickReport = null;
+		$inst->ExternalQuickReport = null;
+		
+		$inst->WhoCreated = $xml->getElementsByTagName('WhoCreated')->item($i)->nodeValue;
+		$inst->WhenCreated = $xml->getElementsByTagName('WhenCreated')->item($i)->nodeValue;
+		$inst->WhoModified = $xml->getElementsByTagName('WhoModified')->item($i)->nodeValue;
+		$inst->WhenModified = $xml->getElementsByTagName('WhenModified')->item($i)->nodeValue;
 	}
 }
 ?>
