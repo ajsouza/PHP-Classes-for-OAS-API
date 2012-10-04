@@ -81,7 +81,7 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function findexact(){
+	public function findIDXML(){
 		$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
 		$xml .= $this->adxml();
 		$xml .= '</Advertiser></Database></Request></AdXML>';
@@ -89,12 +89,39 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function findall(){
+	public function searchXML(){
 		$xml = '<AdXML><Request type="Advertiser"><Database action="list"><SearchCriteria>';
 		$xml .= $this->adxml();
 		$xml .= '</SearchCriteria></Database></Request></AdXML>';
 		
 		return $xml;
+	}
+	
+	public function map($xml){		
+		$this->Id = $xml->getElementsByTagName('Id')->item(0)->nodeValue;
+		$this->Organization = $xml->getElementsByTagName('Organization')->item(0)->nodeValue;
+		$this->Notes = $xml->getElementsByTagName('Notes')->item(0)->nodeValue;
+		$this->ContactFirstName = $xml->getElementsByTagName('ContactFirstName')->item(0)->nodeValue;
+		$this->ContactLastName = $xml->getElementsByTagName('ContactLastName')->item(0)->nodeValue;
+		$this->ContactTitle = $xml->getElementsByTagName('ContactTitle')->item(0)->nodeValue;
+		$this->Email = $xml->getElementsByTagName('Email')->item(0)->nodeValue;
+		$this->Phone = $xml->getElementsByTagName('Phone')->item(0)->nodeValue;
+		$this->Fax = $xml->getElementsByTagName('Fax')->item(0)->nodeValue;
+		$this->UserId = null;
+		$this->BillingMethod = null;
+		$this->Address = null;
+		$this->City = null;
+		$this->State = null;
+		$this->Country = null;
+		$this->Zip = null;
+		$this->BillingEmail = null;
+		$this->InternalQuickReport = null;
+		$this->ExternalQuickReport = null;
+		
+		$this->WhoCreated = $xml->getElementsByTagName('WhoCreated')->item(0)->nodeValue;
+		$this->WhenCreated = $xml->getElementsByTagName('WhenCreated')->item(0)->nodeValue;
+		$this->WhoModified = $xml->getElementsByTagName('WhoModified')->item(0)->nodeValue;
+		$this->WhenModified = $xml->getElementsByTagName('WhenModified')->item(0)->nodeValue;
 	}
 }
 ?>

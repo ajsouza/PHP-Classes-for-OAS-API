@@ -24,9 +24,7 @@ class OASWebService{
 
   public function requestXML($adxml){
 	$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
-	$message = DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
-
-	return $message->saveXML();
+	return DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
   }
   
   public function create($oasentity){
@@ -35,16 +33,18 @@ class OASWebService{
   public function update($oasentity){
 	return $this->request($oasentity->update());
   }
-  public function findexact($oasentity){
-	return $this->requestXML($oasentity->findexact());
+  public function findID($oasentity){
+	$oasentity->map($this->requestXML($oasentity->findIDXML()));
   }
-  public function findall($oasentity){
-	return $this->requestXML($oasentity->findall());
+  public function search($oasentity){
+	return $this->requestXML($oasentity->search());
   }
 }
 
 abstract class OASEntity{
 	public $entity = array();
+	public $instances = array();
+	
 	public $WhoCreated = null;
 	public $WhenCreated = null;
 	public $WhoModified = null;
@@ -52,11 +52,12 @@ abstract class OASEntity{
 
 	abstract public function create();
 	abstract public function update();
-	abstract public function findexact();
-	abstract public function findall();
+	abstract public function searchXML();
+	abstract public function findIDXML();
 	
 	abstract public function entity_def();
 	abstract public function clean_instance(&$inst);
+	abstract public function map($xml);
 	
 	public function adxml() {
 	  $this->entity = $this->entity_def();
@@ -67,6 +68,13 @@ abstract class OASEntity{
 	  $this->clean_instance($this->entity);
 	  
 	  return $this->build_xml($this->entity);
+	}
+	
+	public function findID(){
+		$this->map($this->findIDXML());
+	}
+	
+	public function search(){
 	}
 	
 	private function build_xml(&$inst){
