@@ -53,7 +53,7 @@ abstract class OASEntity{
 	abstract public function create();
 	abstract public function update();
 	abstract public function search();
-	abstract public function find($Id, $headless = false);
+	abstract public function find($Id);
 	
 	abstract public function entity_def();
 	abstract public function clean_instance(&$inst);
@@ -103,6 +103,29 @@ abstract class OASEntity{
 	  return $xml;
 	}
 	
+	public function build_search_results($xml, $websvc){
+	    $nodeList = $xml->getElementsByTagName($this->main_id);
+		$tmpxml = null;
+		
+		foreach( $nodeList as $node ) {
+			$tmpxml .= $this->find($node->nodeValue);
+			$tmpxml = str_replace("<AdXML>", "", $tmpxml);
+			$tmpxml = str_replace("</AdXML>", "", $tmpxml);
+		}
+			
+		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
+		$xml = $websvc->requestXML($tmpxml);
+		echo $xml->saveXML();
+		$nodes = $xml->getElementsByTagName($this->main_tag);
+		$nodeListLength = $nodes->length;
+		for ($i = 0; $i < $nodeListLength; $i ++)
+		{
+			$tmp = new Advertiser();
+			$tmp->map($xml, $tmp, $i);
+			$this->instances[] = $tmp;
+		}
+	}
+	
 	private function compact_xml_array(&$inst){
 		$this->prune_empty_vals($inst);
 		$this->prune_empty_arrs($inst);
@@ -126,6 +149,10 @@ abstract class OASEntity{
 		if( is_array($val) )
 		  $this->prune_empty_arrs($val);
 	  }
+	}
+	
+	public function return_xml_value($xml, $i, $tag){
+	  return $xml->getElementsByTagName($tag)->item($i)->nodeValue;
 	}
 }
 

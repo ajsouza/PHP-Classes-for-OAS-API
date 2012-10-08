@@ -22,6 +22,9 @@ class Advertiser extends OASEntity {
 	public $InternalQuickReport = null;
 	public $ExternalQuickReport = null;
 	
+	public $main_id = "Id";
+	public $main_tag = "Advertiser";
+	
 	public function entity_def() {
 	  $inst = array(
 		  "Id" => &$this->Id,
@@ -81,16 +84,11 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function find($Id, $headless = false){
-		if($headless) {
-			$xml = '<Request type="Advertiser"><Database action="read"><Advertiser>';
-			$xml .= '<Id>' . $Id . '</Id>';
-			$xml .= '</Advertiser></Database></Request>';
-		} else {
-			$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
-			$xml .= '<Id>' . $Id . '</Id>';
-			$xml .= '</Advertiser></Database></Request></AdXML>';
-		}
+	public function find($Id){
+		$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
+		$xml .= '<Id>' . $Id . '</Id>';
+		$xml .= '</Advertiser></Database></Request></AdXML>';
+			
 		return $xml;
 	}
 	
@@ -102,36 +100,16 @@ class Advertiser extends OASEntity {
 		return $xml;
 	}
 	
-	public function build_search_results($xml, $websvc){
-	    $nodeList = $xml->getElementsByTagName('Id');
-		$tmpxml = null;
-		
-		foreach( $nodeList as $node )
-			$tmpxml .= $this->find($node->nodeValue, true);
-			
-		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
-		$xml = $websvc->requestXML($tmpxml);
-		
-		$nodes = $xml->getElementsByTagName("Advertiser");
-		$nodeListLength = $nodes->length;
-		for ($i = 0; $i < $nodeListLength; $i ++)
-		{
-			$tmp = new Advertiser();
-			$tmp->map($xml, $tmp, $i);
-			$this->instances[] = $tmp;
-		}
-	}
-	
 	public function map($xml, &$inst, $i){
-		$inst->Id = $xml->getElementsByTagName('Id')->item($i)->nodeValue;
-		$inst->Organization = $xml->getElementsByTagName('Organization')->item($i)->nodeValue;
-		$inst->Notes = $xml->getElementsByTagName('Notes')->item($i)->nodeValue;
-		$inst->ContactFirstName = $xml->getElementsByTagName('ContactFirstName')->item($i)->nodeValue;
-		$inst->ContactLastName = $xml->getElementsByTagName('ContactLastName')->item($i)->nodeValue;
-		$inst->ContactTitle = $xml->getElementsByTagName('ContactTitle')->item($i)->nodeValue;
-		$inst->Email = $xml->getElementsByTagName('Email')->item($i)->nodeValue;
-		$inst->Phone = $xml->getElementsByTagName('Phone')->item($i)->nodeValue;
-		$inst->Fax = $xml->getElementsByTagName('Fax')->item($i)->nodeValue;
+		$inst->Id = $this->return_xml_value($xml, $i, "Id");
+		$inst->Organization = $this->return_xml_value($xml, $i, "Organization");
+		$inst->Notes = $this->return_xml_value($xml, $i, "Notes");
+		$inst->ContactFirstName = $this->return_xml_value($xml, $i, "ContactFirstName");
+		$inst->ContactLastName = $this->return_xml_value($xml, $i, "ContactLastName");
+		$inst->ContactTitle = $this->return_xml_value($xml, $i, "ContactTitle");
+		$inst->Email = $this->return_xml_value($xml, $i, "Email");
+		$inst->Phone = $this->return_xml_value($xml, $i, "Phone");
+		$inst->Fax = $this->return_xml_value($xml, $i, "Fax");
 		$inst->UserId = null;
 		$inst->BillingMethod = null;
 		$inst->Address = null;
@@ -140,13 +118,13 @@ class Advertiser extends OASEntity {
 		$inst->Country = null;
 		$inst->Zip = null;
 		$inst->BillingEmail = null;
-		$inst->InternalQuickReport = null;
-		$inst->ExternalQuickReport = null;
+		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
+		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
 		
-		$inst->WhoCreated = $xml->getElementsByTagName('WhoCreated')->item($i)->nodeValue;
-		$inst->WhenCreated = $xml->getElementsByTagName('WhenCreated')->item($i)->nodeValue;
-		$inst->WhoModified = $xml->getElementsByTagName('WhoModified')->item($i)->nodeValue;
-		$inst->WhenModified = $xml->getElementsByTagName('WhenModified')->item($i)->nodeValue;
+		$inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
+		$inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");
+		$inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified");
+		$inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified");
 	}
 }
 ?>
