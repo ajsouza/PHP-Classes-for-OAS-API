@@ -59,6 +59,8 @@ abstract class OASEntity{
 	abstract public function clean_instance(&$inst);
 	abstract public function map($xml, &$inst, $i);
 	
+	abstract public function validate();
+	
 	public function adxml() {
 	  $this->entity = $this->entity_def();
 	  
