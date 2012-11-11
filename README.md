@@ -1,5 +1,5 @@
 #PHP Library for Open AdStream
-In **BETA** [1] currently. This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
+In [BETA] [1] currently. This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
 [1]: Not yet a stable release. This means we still could change object structures and properties.
 
