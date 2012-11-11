@@ -4,18 +4,18 @@ This is an attempt to create a full PHP library for 247Media's Open AdStream. Th
 Entities
 ========
 Currently this PHP library has support for the following entities;
-*Advertiser
-*Agency
-*Campaign Group
+* Advertiser
+* Agency
+* Campaign Group
 The entities we plan to support are (work in progress);
-*Insertion Order
-*Campaign
-*Creative
-*Pages
-*Section
-*Site
-*Site Group
-*Notification
+* Insertion Order
+* Campaign
+* Creative
+* Pages
+* Section
+* Site
+* Site Group
+* Notification
 
 Sample Usage
 ============ 
