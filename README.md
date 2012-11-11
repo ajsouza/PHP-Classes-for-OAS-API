@@ -7,17 +7,29 @@ The example below shows how you would use the Advertiser entity to retrieve all 
 
 ```PHP
 <?php
-include "oas.entities.php";
+include "api.oas.php";
 
-$Advertiser = new Advertiser();
-$OASSvc = new OASWebService('https://[YOUR DOMAIN]/oasapi/OaxApi?wsdl');
+/* 
+  Just for clarity of what to pass to Connect
+  I have separated out the variables
+*/
+$OAS = new OAS();
 
-$OASSvc->account = "[YOUR OAS ACCOUNT]";
-$OASSvc->user = "[YOUR USER]";
-$OASSvc->pass = "[YOUR PASS]";
+$wsdl = "https://[YOUR API DOMAIN]/oasapi/OaxApi?wsdl";
+$account = "[YOUR OAS ACCOUNT]";
+$user = "[YOUR USER]";
+$pass = "[YOUR PASS]";
 
+$MyOAS = $OAS->Connect($wsdl, $account, $user, $pass);
+
+/* 
+  Create an OAS Entity {advertiser, agency, campaign, 
+  campaign group, product, etc...}
+*/
+$Advertiser = $OAS->Entity("advertiser");
 $Advertiser->Organization = "A";
-$OASSvc->search($Advertiser);
+
+$MyOAS->search($Advertiser);
 foreach( $Advertiser->instances as $inst ) {
 	echo $inst->Id . "\n";
 	echo $inst->Organization . "\n";
