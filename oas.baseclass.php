@@ -117,7 +117,7 @@ abstract class OASEntity{
 			
 		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
 		$xml = $websvc->requestXML($tmpxml);
-		//echo $xml->saveXML();
+		echo $xml->saveXML();
 		$nodes = $xml->getElementsByTagName($this->main_tag);
 		$nodeListLength = $nodes->length;
 		for ($i = 0; $i < $nodeListLength; $i ++)

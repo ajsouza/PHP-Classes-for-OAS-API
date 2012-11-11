@@ -1,5 +1,5 @@
 <?php
-include "oas.baseclass.php";
+include_once "oas.baseclass.php";
 
 class advertiser extends OASEntity {
 	public $Id = null;

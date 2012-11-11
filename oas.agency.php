@@ -1,5 +1,5 @@
 <?php
-include "oas.baseclass.php";
+include_once "oas.baseclass.php";
 
 class agency extends OASEntity {
 	public $Id = null;
@@ -18,7 +18,6 @@ class agency extends OASEntity {
 	public $State = null;
 	public $Country = null;
 	public $Zip = null;
-	public $BillingEmail = null;
 	public $InternalQuickReport = null;
 	public $ExternalQuickReport = null;
 	
@@ -50,8 +49,7 @@ class agency extends OASEntity {
 			"Country" => array(
 			  "Code" => &$this->Country
 			),
-			"Zip" => &$this->Zip,
-			"Email" => &$this->BillingEmail
+			"Zip" => &$this->Zip
 		  ),
 		  "InternalQuickReport" => &$this->InternalQuickReport,
 		  "ExternalQuickReport" => &$this->ExternalQuickReport
@@ -121,7 +119,6 @@ class agency extends OASEntity {
 		$inst->State = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "State" ) );
 		$inst->Country = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Country" ) );
 		$inst->Zip = $this->return_xml_value($xml, $i, "Zip", array( "BillingInformation" ) );
-		$inst->BillingEmail = $this->return_xml_value($xml, $i, "Email", array( "BillingInformation" ) );
 		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
 		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
 		
