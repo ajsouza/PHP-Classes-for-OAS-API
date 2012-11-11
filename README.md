@@ -1,4 +1,4 @@
-#PHP Library for Open AdStream
+#PHP Library for Open AdStream [**BETA**][1]
 This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
 Entities
@@ -23,7 +23,7 @@ Methods
 * create; Create a new entity
 * update; Update an entity
 * find; Find a specific instance of an entity [usually based on id]
-* search; Find all entities based on a search criteria [return instances of entity in **$entity->instances**]
+* search; Find all entities based on a search criteria [return instances of entity in **$entity->instances** ]
 
 Sample Usage
 ============ 
@@ -65,3 +65,5 @@ foreach( $Advertiser->instances as $inst ) {
 Future Development
 ==================
 We are planning on creating an oas.reporting.php library.
+
+[1]: Not yet a stable release, means we still could change this structure.
