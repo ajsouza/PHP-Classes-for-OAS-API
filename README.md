@@ -1,5 +1,5 @@
 #PHP Library for Open AdStream
-In **BETA** currently, not yet a stable release, we may still change object structures, properties and methods. This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
+**In BETA currently, not yet a stable release, we may still change object structures, properties and methods.** This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
 Entities
 ========
@@ -24,6 +24,11 @@ Methods
 * update; Update an entity
 * find; Find a specific instance of an entity [usually based on id]
 * search; Find all entities based on a search criteria [return instances of entity in **$entity->instances** ]
+
+In addition to these, we are also developing some bulk update methods;
+* add; Add to **$entity->instances** an instance of an entity.
+* updateAll; Update all instances of entity.
+* createAll; Create all instances of entity.
 
 Sample Usage
 ============ 
