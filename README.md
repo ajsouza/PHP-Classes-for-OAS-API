@@ -1,6 +1,22 @@
 #PHP Library for Open AdStream
 This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
+Entities
+========
+Currently this PHP library has support for the following entities;
+*Advertiser
+*Agency
+*Campaign Group
+The entities we plan to support are (work in progress);
+*Insertion Order
+*Campaign
+*Creative
+*Pages
+*Section
+*Site
+*Site Group
+*Notification
+
 Sample Usage
 ============ 
 The example below shows how you would use the Advertiser entity to retrieve all advertisers whose name is like %A%.
