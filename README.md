@@ -13,14 +13,14 @@ include "api.oas.php";
   Just for clarity of what to pass to Connect
   I have separated out the variables
 */
-$OAS = new OAS();
+$API = new OAS();
 
 $wsdl = "https://[YOUR API DOMAIN]/oasapi/OaxApi?wsdl";
 $account = "[YOUR OAS ACCOUNT]";
 $user = "[YOUR USER]";
 $pass = "[YOUR PASS]";
 
-$MyOAS = $OAS->Connect($wsdl, $account, $user, $pass);
+$OAS = $API->Connect($wsdl, $account, $user, $pass);
 
 /* 
   Create an OAS Entity {advertiser, agency, campaign, 
@@ -29,7 +29,7 @@ $MyOAS = $OAS->Connect($wsdl, $account, $user, $pass);
 $Advertiser = $OAS->Entity("advertiser");
 $Advertiser->Organization = "A";
 
-$MyOAS->search($Advertiser);
+$OAS->search($Advertiser);
 foreach( $Advertiser->instances as $inst ) {
 	echo $inst->Id . "\n";
 	echo $inst->Organization . "\n";
