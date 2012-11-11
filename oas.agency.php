@@ -1,7 +1,7 @@
 <?php
 include "oas.baseclass.php";
 
-class Advertiser extends OASEntity {
+class agency extends OASEntity {
 	public $Id = null;
 	public $Organization = null;
 	public $Notes = null;
@@ -23,7 +23,7 @@ class Advertiser extends OASEntity {
 	public $ExternalQuickReport = null;
 	
 	public $main_id = "Id";
-	public $main_tag = "Advertiser";
+	public $main_tag = "Agency";
 	
 	public function entity_def() {
 	  $inst = array(
@@ -69,31 +69,31 @@ class Advertiser extends OASEntity {
 	}
 	
 	public function create(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="add"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="add"><'.$this->main_tag.'>';
 		$xml .= $this->adxml();
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 		
 		return $xml;
 	}
 	
 	public function update(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="update"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="update"><'.$this->main_tag.'>';
 		$xml .= $this->adxml();
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 		
 		return $xml;
 	}
 	
 	public function find($Id){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
 		$xml .= '<Id>' . $Id . '</Id>';
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 			
 		return $xml;
 	}
 	
 	public function search(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="list"><SearchCriteria>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="list"><SearchCriteria>';
 		$xml .= $this->adxml();
 		$xml .= '</SearchCriteria></Database></Request></AdXML>';
 		
@@ -114,7 +114,7 @@ class Advertiser extends OASEntity {
 		$inst->Email = $this->return_xml_value($xml, $i, "Email");
 		$inst->Phone = $this->return_xml_value($xml, $i, "Phone");
 		$inst->Fax = $this->return_xml_value($xml, $i, "Fax");
-		$inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ) );
+		$inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
 		$inst->BillingMethod = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Method" ) );
 		$inst->Address = $this->return_xml_value($xml, $i, "Address", array( "BillingInformation" ) );
 		$inst->City = $this->return_xml_value($xml, $i, "City", array( "BillingInformation" ) );

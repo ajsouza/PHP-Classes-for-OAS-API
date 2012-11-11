@@ -69,31 +69,31 @@ class advertiser extends OASEntity {
 	}
 	
 	public function create(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="add"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="add"><'.$this->main_tag.'>';
 		$xml .= $this->adxml();
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 		
 		return $xml;
 	}
 	
 	public function update(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="update"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="update"><'.$this->main_tag.'>';
 		$xml .= $this->adxml();
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 		
 		return $xml;
 	}
 	
 	public function find($Id){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="read"><Advertiser>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
 		$xml .= '<Id>' . $Id . '</Id>';
-		$xml .= '</Advertiser></Database></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 			
 		return $xml;
 	}
 	
 	public function search(){
-		$xml = '<AdXML><Request type="Advertiser"><Database action="list"><SearchCriteria>';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="list"><SearchCriteria>';
 		$xml .= $this->adxml();
 		$xml .= '</SearchCriteria></Database></Request></AdXML>';
 		
