@@ -1,4 +1,4 @@
-#PHP Library for Open AdStream **BETA** [1]
+#PHP Library for Open AdStream [BETA] [1]
 This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
 Entities
@@ -66,4 +66,4 @@ Future Development
 ==================
 We are planning on creating an oas.reporting.php library.
 
-[1]: Not yet a stable release, means we still could change this structure.
+[1]: Not yet a stable release, means we still could change this structure "BETA"
