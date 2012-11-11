@@ -7,6 +7,7 @@ Currently this PHP library has support for the following entities;
 * Advertiser
 * Agency
 * Campaign Group
+
 The entities we plan to support are (work in progress);
 * Insertion Order
 * Campaign
@@ -17,6 +18,13 @@ The entities we plan to support are (work in progress);
 * Site Group
 * Notification
 
+Methods
+=======
+* create; Create a new entity
+* update; Update an entity
+* find; Find a specific instance of an entity [usually based on id]
+* search; Find all entities based on a search criteria [return instances of entity in **$entity->instances**]
+
 Sample Usage
 ============ 
 The example below shows how you would use the Advertiser entity to retrieve all advertisers whose name is like %A%.
@@ -25,17 +33,16 @@ The example below shows how you would use the Advertiser entity to retrieve all 
 <?php
 include "api.oas.php";
 
-/* 
-  Just for clarity of what to pass to Connect
-  I have separated out the variables
-*/
-$API = new OAS();
-
 $wsdl = "https://[YOUR API DOMAIN]/oasapi/OaxApi?wsdl";
 $account = "[YOUR OAS ACCOUNT]";
 $user = "[YOUR USER]";
 $pass = "[YOUR PASS]";
 
+/* 
+  Just for clarity of what to pass to Connect
+  I created the above variables (should be self explanatory)
+*/
+$API = new OAS();
 $OAS = $API->Connect($wsdl, $account, $user, $pass);
 
 /* 
