@@ -117,7 +117,7 @@ abstract class OASEntity{
 			
 		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
 		$xml = $websvc->requestXML($tmpxml);
-		echo $xml->saveXML();
+		//echo $xml->saveXML();
 		$nodes = $xml->getElementsByTagName($this->main_tag);
 		$nodeListLength = $nodes->length;
 		for ($i = 0; $i < $nodeListLength; $i ++)
@@ -153,8 +153,25 @@ abstract class OASEntity{
 	  }
 	}
 	
-	public function return_xml_value($xml, $i, $tag){
-	  return $xml->getElementsByTagName($tag)->item($i)->nodeValue;
+	public function return_xml_value($xml, $i, $tag, $isChild = false, $return_array = false){
+	  if ( !$isChild ) {
+	  	return $xml->getElementsByTagName($tag)->item($i)->nodeValue;
+	  } else {
+	  	$rtnVal = array();
+
+	  	foreach ($isChild as $level) {
+	  		$nodes = $xml->getElementsByTagName($level)->item($i);
+	  	}
+
+	  	foreach ($nodes->getElementsByTagName($tag) as $node) {
+	  		$rtnVal[] = $node->nodeValue;
+	  	}
+
+	  	if ( $return_array )
+	  		return $rtnVal;
+	  	else
+	  		return $rtnVal[0];
+	  }
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 include "oas.baseclass.php";
 
-class Advertiser extends OASEntity {
+class advertiser extends OASEntity {
 	public $Id = null;
 	public $Organization = null;
 	public $Notes = null;
@@ -99,6 +99,10 @@ class Advertiser extends OASEntity {
 		
 		return $xml;
 	}
+
+	public function validate(){
+
+	}
 	
 	public function map($xml, &$inst, $i){
 		$inst->Id = $this->return_xml_value($xml, $i, "Id");
@@ -110,14 +114,14 @@ class Advertiser extends OASEntity {
 		$inst->Email = $this->return_xml_value($xml, $i, "Email");
 		$inst->Phone = $this->return_xml_value($xml, $i, "Phone");
 		$inst->Fax = $this->return_xml_value($xml, $i, "Fax");
-		$inst->UserId = $this->return_xml_value($xml, $i, "UserId");;
-		$inst->BillingMethod = null;
-		$inst->Address = null;
-		$inst->City = null;
-		$inst->State = null;
-		$inst->Country = null;
-		$inst->Zip = null;
-		$inst->BillingEmail = null;
+		$inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
+		$inst->BillingMethod = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Method" ) );
+		$inst->Address = $this->return_xml_value($xml, $i, "Address", array( "BillingInformation" ) );
+		$inst->City = $this->return_xml_value($xml, $i, "City", array( "BillingInformation" ) );
+		$inst->State = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "State" ) );
+		$inst->Country = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Country" ) );
+		$inst->Zip = $this->return_xml_value($xml, $i, "Zip", array( "BillingInformation" ) );
+		$inst->BillingEmail = $this->return_xml_value($xml, $i, "Email", array( "BillingInformation" ) );
 		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
 		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
 		
