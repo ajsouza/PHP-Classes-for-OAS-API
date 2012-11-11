@@ -1,7 +1,5 @@
 #PHP Library for Open AdStream
-In [BETA] [1] currently. This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
-
-[1]: Not yet a stable release. This means we still could change object structures and properties.
+In **BETA** currently, not yet a stable release, we may still change object structures, properties and methods. This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
 
 Entities
 ========
@@ -10,7 +8,7 @@ Currently this PHP library has support for the following entities;
 * Agency
 * Campaign Group
 
-The entities we plan to support are (work in progress);
+The entities we plan to support, they are currently a work in progress;
 * Insertion Order
 * Campaign
 * Creative
