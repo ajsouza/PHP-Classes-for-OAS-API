@@ -1,1 +1,3 @@
 testscript.*.php
+sftp-config.json
+*.log

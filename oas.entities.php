@@ -110,7 +110,7 @@ class Advertiser extends OASEntity {
 		$inst->Email = $this->return_xml_value($xml, $i, "Email");
 		$inst->Phone = $this->return_xml_value($xml, $i, "Phone");
 		$inst->Fax = $this->return_xml_value($xml, $i, "Fax");
-		$inst->UserId = null;
+		$inst->UserId = $this->return_xml_value($xml, $i, "UserId");;
 		$inst->BillingMethod = null;
 		$inst->Address = null;
 		$inst->City = null;
