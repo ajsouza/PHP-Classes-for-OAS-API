@@ -23,7 +23,7 @@ Methods
 * create; Create a new entity
 * update; Update an entity
 * find; Find a specific instance of an entity [usually based on id]
-* search; Find all entities based on a search criteria [return instances of entity in **$entity->instances** ]
+* search; Find all entities based on a search criteria, it returns instances of entity in **$entity->instances**
 
 In addition to these, we are also developing some bulk update methods;
 * add; Add to **$entity->instances** an instance of an entity.

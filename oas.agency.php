@@ -1,5 +1,5 @@
 <?php
-include_once "oas.baseclass.php";
+include_once "baseclass.oas.php";
 
 class agency extends OASEntity {
 	public $Id = null;

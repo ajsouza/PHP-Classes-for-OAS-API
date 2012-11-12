@@ -1,13 +1,14 @@
 <?php
-include_once "oas.baseclass.php";
+include_once "baseclass.oas.php";
 
-class advertiser extends OASEntity {
+class campaigngroup extends OASEntity {
 	public $Id = null;
 	public $Description = null;
 	public $Notes = null;
 	public $UserId = null;
-	public $InternalQuickReport = null;
-	public $ExternalQuickReport = null;
+	public $Campaigns = null;
+	public $InternalQuickReport = "to-date";
+	public $ExternalQuickReport = "short";
 	
 	public $main_id = "Id";
 	public $main_tag = "CampaignGroup";
@@ -76,6 +77,7 @@ class advertiser extends OASEntity {
 		$inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
 		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
 		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
+		$inst->Campaigns = $this->return_xml_value($xml, $i, "CampaignId", array( "Campaigns" ), true );
 		
 		$inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
 		$inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");

@@ -1,8 +1,12 @@
 <?php
 
+// FILES & PATHS
 define("PATH_API_FILES", "");
 define("PATH_LOG_FILES", "/logs");
-define("BASECLASS", "oas.baseclass.php");
+define("BASECLASS", "baseclass.oas.php");
+
+// AdXML OPTIMIZATIONS
+define("MAX_ADXML_CALLS", 50);
 
 class OAS{
 	public function Entity($name){
