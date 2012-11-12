@@ -239,11 +239,76 @@ class campaign extends OASEntity {
 	}
 	
 	public function clean_instance(&$inst){
-	  if( count($inst['BillingInformation']) == 0 )
-	    unset($inst['BillingInformation']);
 	
-	  if( count($inst['ExternalUsers']) == 1 )
-	    unset($inst['ExternalUsers']);
+	  if( count($inst['Overview']['CampaignGroups']) == 1 )
+	    unset($inst['Overview']['CampaignGroups']);
+	
+	  if( count($inst['Overview']['CompetitiveCategories']) == 1 )
+	    unset($inst['Overview']['CompetitiveCategories']);
+	
+	  if( count($inst['Overview']['ExternalUsers']) == 1 )
+	    unset($inst['Overview']['ExternalUsers']);
+	
+	  if( count($inst['Schedule']['CompanionPositions']) == 1 )
+	    unset($inst['Schedule']['CompanionPositions']);
+	
+	  if( count($inst['Schedule']['HourOfDay']) == 1 )
+	    unset($inst['Schedule']['HourOfDay']);
+	
+	  if( count($inst['Schedule']['DayOfWeek']) == 1 )
+	    unset($inst['Schedule']['DayOfWeek']);
+	
+	  if( count($inst['Schedule']['Sections']) == 1 )
+	    unset($inst['Schedule']['Sections']);
+	
+	  if( count($inst['Schedule']) == 0 )
+	    unset($inst['Schedule']);
+	
+	  if( count($inst['Pages']) == 1 )
+	    unset($inst['Pages']);
+	
+	  if( count($inst['Target']['TopLevelDomain']) == 1 )
+	    unset($inst['Target']['TopLevelDomain']);
+	
+	  if( count($inst['Target']['Bandwidth']) == 1 )
+	    unset($inst['Target']['Bandwidth']);
+	
+	  if( count($inst['Target']['Continent']) == 1 )
+	    unset($inst['Target']['Continent']);
+	
+	  if( count($inst['Target']['Country']) == 1 )
+	    unset($inst['Target']['Country']);
+	
+	  if( count($inst['Target']['State']) == 1 )
+	    unset($inst['Target']['State']);
+	
+	  if( count($inst['Target']['AreaCode']) == 1 )
+	    unset($inst['Target']['AreaCode']);
+	
+	  if( count($inst['Target']['Msa']) == 1 )
+	    unset($inst['Target']['Msa']);
+	
+	  if( count($inst['Target']['Dma']) == 1 )
+	    unset($inst['Target']['Dma']);
+	
+	  if( count($inst['Target']['City']) == 1 )
+	    unset($inst['Target']['City']);
+	
+	  if( count($inst['Target']['Zip']) == 1 )
+	    unset($inst['Target']['Zip']);
+	
+	  if( count($inst['Target']['Os']) == 1 )
+	    unset($inst['Target']['Os']);
+	
+	  if( count($inst['Target']['Browser']) == 1 )
+	    unset($inst['Target']['Browser']);
+	
+	  if( count($inst['Target']['BrowserV']) == 1 )
+	    unset($inst['Target']['BrowserV']);
+	
+	  if( count($inst['Target']) == 0 )
+	    unset($inst['Target']);
+
 	}
 	
 	public function create(){
