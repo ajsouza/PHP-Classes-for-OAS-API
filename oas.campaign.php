@@ -1,7 +1,7 @@
 <?php
 include_once "baseclass.oas.php";
 
-class agency extends OASEntity {
+class campaign extends OASEntity {
 	// Overview
 	public $Id = null;
 	public $AdvertiserId = "unknown_advertiser";
@@ -283,29 +283,29 @@ class agency extends OASEntity {
 	}
 	
 	public function map($xml, &$inst, $i){
-		$inst->Id = $this->return_xml_value($xml, $i, "Id");
-		$inst->Organization = $this->return_xml_value($xml, $i, "Organization");
-		$inst->Notes = $this->return_xml_value($xml, $i, "Notes");
-		$inst->ContactFirstName = $this->return_xml_value($xml, $i, "ContactFirstName");
-		$inst->ContactLastName = $this->return_xml_value($xml, $i, "ContactLastName");
-		$inst->ContactTitle = $this->return_xml_value($xml, $i, "ContactTitle");
-		$inst->Email = $this->return_xml_value($xml, $i, "Email");
-		$inst->Phone = $this->return_xml_value($xml, $i, "Phone");
-		$inst->Fax = $this->return_xml_value($xml, $i, "Fax");
-		$inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
-		$inst->BillingMethod = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Method" ) );
-		$inst->Address = $this->return_xml_value($xml, $i, "Address", array( "BillingInformation" ) );
-		$inst->City = $this->return_xml_value($xml, $i, "City", array( "BillingInformation" ) );
-		$inst->State = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "State" ) );
-		$inst->Country = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Country" ) );
-		$inst->Zip = $this->return_xml_value($xml, $i, "Zip", array( "BillingInformation" ) );
-		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
-		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
+		// $inst->Id = $this->return_xml_value($xml, $i, "Id");
+		// $inst->Organization = $this->return_xml_value($xml, $i, "Organization");
+		// $inst->Notes = $this->return_xml_value($xml, $i, "Notes");
+		// $inst->ContactFirstName = $this->return_xml_value($xml, $i, "ContactFirstName");
+		// $inst->ContactLastName = $this->return_xml_value($xml, $i, "ContactLastName");
+		// $inst->ContactTitle = $this->return_xml_value($xml, $i, "ContactTitle");
+		// $inst->Email = $this->return_xml_value($xml, $i, "Email");
+		// $inst->Phone = $this->return_xml_value($xml, $i, "Phone");
+		// $inst->Fax = $this->return_xml_value($xml, $i, "Fax");
+		// $inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
+		// $inst->BillingMethod = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Method" ) );
+		// $inst->Address = $this->return_xml_value($xml, $i, "Address", array( "BillingInformation" ) );
+		// $inst->City = $this->return_xml_value($xml, $i, "City", array( "BillingInformation" ) );
+		// $inst->State = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "State" ) );
+		// $inst->Country = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Country" ) );
+		// $inst->Zip = $this->return_xml_value($xml, $i, "Zip", array( "BillingInformation" ) );
+		// $inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
+		// $inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
 		
-		$inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
-		$inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");
-		$inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified");
-		$inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified");
+		// $inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
+		// $inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");
+		// $inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified");
+		// $inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified");
 	}
 }
 ?>
