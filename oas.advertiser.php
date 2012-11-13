@@ -67,38 +67,6 @@ class advertiser extends OASEntity {
 	  if( count($inst['ExternalUsers']) == 1 )
 	    unset($inst['ExternalUsers']);
 	}
-	
-	public function create(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="add"><'.$this->main_tag.'>';
-		$xml .= $this->adxml();
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-		
-		return $xml;
-	}
-	
-	public function update(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="update"><'.$this->main_tag.'>';
-		$xml .= $this->adxml();
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-		
-		return $xml;
-	}
-	
-	public function find($Id){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
-		$xml .= '<Id>' . $Id . '</Id>';
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-			
-		return $xml;
-	}
-	
-	public function search(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="list"><SearchCriteria>';
-		$xml .= $this->adxml();
-		$xml .= '</SearchCriteria></Database></Request></AdXML>';
-		
-		return $xml;
-	}
 
 	public function validate(){
 

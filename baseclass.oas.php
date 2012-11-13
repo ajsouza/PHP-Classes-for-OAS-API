@@ -11,33 +11,36 @@ class OASWebService{
   }
 
   public function request($adxml){
-	$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
-	$message = DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
-	$rtmsg = $message->getElementsByTagName('Exception');
-	
-	if($rtmsg->length != 0){
-		return $rtmsg->item(0)->nodeValue;
-	} else {
-		return true;
-	}
+		$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
+		$message = DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
+		$rtmsg = $message->getElementsByTagName('Exception');
+		
+		if($rtmsg->length != 0){
+			return $rtmsg->item(0)->nodeValue;
+		} else {
+			return true;
+		}
   }
 
   public function requestXML($adxml){
-	$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
-	return DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
+		$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
+		return DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
   }
   
   public function create($oasentity){
-	return $this->request($oasentity->create());
+		return $this->request($oasentity->create());
   }
+
   public function update($oasentity){
-	return $this->request($oasentity->update());
+		return $this->request($oasentity->update());
   }
+
   public function find($oasentity){
-	$oasentity->map($this->requestXML($oasentity->find($oasentity->Id)), $oasentity, 0);
+		$oasentity->map($this->requestXML($oasentity->find($oasentity->Id)), $oasentity, 0);
   }
+
   public function search($oasentity){
-	$oasentity->build_search_results($this->requestXML($oasentity->search()), $this);
+		$oasentity->build_search_results($this->requestXML($oasentity->search()), $this);
   }
 }
 
@@ -50,17 +53,49 @@ abstract class OASEntity{
 	public $WhoModified = null;
 	public $WhenModified = null;
 
-	abstract public function create();
-	abstract public function update();
-	abstract public function search();
-	abstract public function find($Id);
+	// abstract public function create();
+	// abstract public function update();
+	// abstract public function search();
+	// abstract public function find($Id);
 	
 	abstract public function entity_def();
 	abstract public function clean_instance(&$inst);
 	abstract public function map($xml, &$inst, $i);
 	
 	abstract public function validate();
+
+	public function create(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="add"><'.$this->main_tag.'>';
+		$xml .= $this->adxml();
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
+		
+		return $xml;
+	}
 	
+	public function update(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="update"><'.$this->main_tag.'>';
+		$xml .= $this->adxml();
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
+		
+		return $xml;
+	}
+	
+	public function find($Id){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
+		$xml .= '<Id>' . $Id . '</Id>';
+		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
+			
+		return $xml;
+	}
+	
+	public function search(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="list"><SearchCriteria>';
+		$xml .= $this->adxml();
+		$xml .= '</SearchCriteria></Database></Request></AdXML>';
+		
+		return $xml;
+	}
+
 	public function adxml() {
 	  $this->entity = $this->entity_def();
 	  
@@ -72,52 +107,52 @@ abstract class OASEntity{
 	  return $this->build_xml($this->entity);
 	}
 	
-	private function build_xml(&$inst){
+	protected function build_xml(&$inst){
 	  $xml = null;
 	  
 	  foreach($inst as $key=>$val){
-		if( (substr($key, 0, 4) != "@arr") ) 
-		{
-			$KExists = array_key_exists("@arr" . $key, $inst);
-			
-			if(!$KExists)
-			  $xml .= "<" . $key . ">";
-			
-			if( is_array($val) ) {
-			  if( $KExists ) {
-				foreach($val as $k=>$v)
-				  $xml .= "<" . $key . ">" . $v . "</" . $key . ">";
-			  } else {
-			    $xml .= $this->build_xml($val); }
-			} else {
-				if( $KExists ) {
-					$expl = explode(";", $val);
-					foreach($expl as $v)
-					  $xml .= "<" . $key . ">" . trim($v) . "</" . $key . ">";
+			if( (substr($key, 0, 4) != "@arr") ) {
+				$KExists = array_key_exists("@arr" . $key, $inst);
+				
+				if(!$KExists)
+				  $xml .= "<" . $key . ">";
+				
+				if( is_array($val) ) {
+				  if( $KExists ) {
+					foreach($val as $k=>$v)
+					  $xml .= "<" . $key . ">" . $v . "</" . $key . ">";
+				  } else {
+				    $xml .= $this->build_xml($val); }
 				} else {
-				  $xml .= $val; }
-			  }
-			if(!$KExists)
-			  $xml .= "</" . $key . ">";
-		}
+					if( $KExists ) {
+						$expl = explode(";", $val);
+						foreach($expl as $v)
+						  $xml .= "<" . $key . ">" . trim($v) . "</" . $key . ">";
+					} else {
+					  $xml .= $val; }
+				  }
+				if(!$KExists)
+				  $xml .= "</" . $key . ">";
+			}
 	  }
 	  
 	  return $xml;
 	}
 	
 	public function build_search_results($xml, $websvc){
-	    $nodeList = $xml->getElementsByTagName($this->main_id);
+	  $nodeList = $xml->getElementsByTagName($this->main_id);
 		$tmpxml = null;
-		
+
 		foreach( $nodeList as $node ) {
 			$tmpxml .= $this->find($node->nodeValue);
 			$tmpxml = str_replace("<AdXML>", "", $tmpxml);
 			$tmpxml = str_replace("</AdXML>", "", $tmpxml);
 		}
-			
+		
 		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
 		$xml = $websvc->requestXML($tmpxml);
-		//echo $xml->saveXML();
+
+		// echo $xml->saveXML(); // USE FOR DEBUG
 		$nodes = $xml->getElementsByTagName($this->main_tag);
 		$nodeListLength = $nodes->length;
 		for ($i = 0; $i < $nodeListLength; $i ++)
@@ -129,12 +164,12 @@ abstract class OASEntity{
 		}
 	}
 	
-	private function compact_xml_array(&$inst){
+	protected function compact_xml_array(&$inst){
 		$this->prune_empty_vals($inst);
 		$this->prune_empty_arrs($inst);
 	}
 	
-	private function prune_empty_vals(&$inst){
+	protected function prune_empty_vals(&$inst){
 	  foreach( $inst as $key=>&$val ) {
 		if( !is_array($val) && is_null($val) )
 		  unset($inst[$key]);
@@ -144,7 +179,7 @@ abstract class OASEntity{
 	  }
 	}
 	
-	private function prune_empty_arrs(&$inst){
+	protected function prune_empty_arrs(&$inst){
 	  foreach( $inst as $key=>&$val ) {
 		if( is_array($val) && count($val) == 0 )
 		  unset($inst[$key]);
@@ -171,7 +206,10 @@ abstract class OASEntity{
 	  	if ( $return_array )
 	  		return $rtnVal;
 	  	else
-	  		return $rtnVal[0];
+	  		if ( count($rtnVal) == 0 )
+	  			return $rtnVal;
+	  		else 
+	  			return $rtnVal[0];
 	  }
 	}
 }

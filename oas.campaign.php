@@ -4,17 +4,17 @@ include_once "baseclass.oas.php";
 class campaign extends OASEntity {
 	// Overview
 	public $Id = null;
-	public $AdvertiserId = "unknown_advertiser";
+	public $AdvertiserId = null;
 	public $Name = null;
-	public $AgencyId = "unknown_agency";
+	public $AgencyId = null;
 	public $Description = null;
 	public $CampaignManager = null;
-	public $ProductId = "default-product";
+	public $ProductId = null;
 	public $CampaignGroups = null;
 	public $CompetitiveCategories = null;
 	public $ExternalUsers = null;
-	public $InternalQuickReport = "to-date";
-	public $ExternalQuickReport = "short";
+	public $InternalQuickReport = null;
+	public $ExternalQuickReport = null;
 
 	// Schedule
 	public $Impressions = null;
@@ -310,67 +310,113 @@ class campaign extends OASEntity {
 	    unset($inst['Target']);
 
 	}
-	
-	public function create(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="add"><'.$this->main_tag.'>';
-		$xml .= $this->adxml();
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-		
-		return $xml;
-	}
-	
-	public function update(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="update"><'.$this->main_tag.'>';
-		$xml .= $this->adxml();
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-		
-		return $xml;
-	}
-	
-	public function find($Id){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
-		$xml .= '<Id>' . $Id . '</Id>';
-		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
-			
-		return $xml;
-	}
-	
-	public function search(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="list"><SearchCriteria>';
-		$xml .= $this->adxml();
-		$xml .= '</SearchCriteria></Database></Request></AdXML>';
-		
-		return $xml;
-	}
 
 	public function validate(){
 
 	}
 	
 	public function map($xml, &$inst, $i){
-		// $inst->Id = $this->return_xml_value($xml, $i, "Id");
-		// $inst->Organization = $this->return_xml_value($xml, $i, "Organization");
-		// $inst->Notes = $this->return_xml_value($xml, $i, "Notes");
-		// $inst->ContactFirstName = $this->return_xml_value($xml, $i, "ContactFirstName");
-		// $inst->ContactLastName = $this->return_xml_value($xml, $i, "ContactLastName");
-		// $inst->ContactTitle = $this->return_xml_value($xml, $i, "ContactTitle");
-		// $inst->Email = $this->return_xml_value($xml, $i, "Email");
-		// $inst->Phone = $this->return_xml_value($xml, $i, "Phone");
-		// $inst->Fax = $this->return_xml_value($xml, $i, "Fax");
-		// $inst->UserId = $this->return_xml_value($xml, $i, "UserId", array( "ExternalUsers" ), true );
-		// $inst->BillingMethod = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Method" ) );
-		// $inst->Address = $this->return_xml_value($xml, $i, "Address", array( "BillingInformation" ) );
-		// $inst->City = $this->return_xml_value($xml, $i, "City", array( "BillingInformation" ) );
-		// $inst->State = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "State" ) );
-		// $inst->Country = $this->return_xml_value($xml, $i, "Code", array( "BillingInformation", "Country" ) );
-		// $inst->Zip = $this->return_xml_value($xml, $i, "Zip", array( "BillingInformation" ) );
-		// $inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport");
-		// $inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport");
+
+		// Overview
+		$inst->Id = $this->return_xml_value($xml, $i, "Id", array( "Overview" ) );
+		$inst->AdvertiserId = $this->return_xml_value($xml, $i, "AdvertiserId", array( "Overview" ) );
+		$inst->Name = $this->return_xml_value($xml, $i, "Name", array( "Overview" ) );
+		$inst->AgencyId = $this->return_xml_value($xml, $i, "AgencyId", array( "Overview" ) );
+		$inst->Description = $this->return_xml_value($xml, $i, "Description", array( "Overview" ) );
+		$inst->CampaignManager = $this->return_xml_value($xml, $i, "CampaignManager", array( "Overview" ) );
+		$inst->ProductId = $this->return_xml_value($xml, $i, "ProductId", array( "Overview" ) );
+		$inst->CampaignGroups = $this->return_xml_value($xml, $i, "CampaignGroupId", array( "Overview", "CampaignGroups" ), true );
+		$inst->CompetitiveCategories = $this->return_xml_value($xml, $i, "CompetitiveCategoryId", array( "Overview", "CompetitiveCategories" ), true );
+		$inst->ExternalUsers = $this->return_xml_value($xml, $i, "UserId", array( "Overview", "ExternalUsers" ), true );
+		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport", array( "Overview" ) );
+		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport", array( "Overview" ) );
+
+		// Schedule
+		$inst->Impressions = $this->return_xml_value($xml, $i, "Impressions", array( "Schedule" ) );
+		$inst->Clicks = $this->return_xml_value($xml, $i, "Clicks", array( "Schedule" ) );
+		$inst->Uniques = $this->return_xml_value($xml, $i, "Uniques", array( "Schedule" ) );
+		$inst->Weight = $this->return_xml_value($xml, $i, "Weight", array( "Schedule" ) );
+		$inst->PriorityLevel = $this->return_xml_value($xml, $i, "PriorityLevel", array( "Schedule" ) );
+		$inst->Completion = $this->return_xml_value($xml, $i, "Completion", array( "Schedule" ) );
+		$inst->StartDate = $this->return_xml_value($xml, $i, "StartDate", array( "Schedule" ) );
+		$inst->EndDate = $this->return_xml_value($xml, $i, "EndDate", array( "Schedule" ) );
+		$inst->Reach = $this->return_xml_value($xml, $i, "Reach", array( "Schedule" ) );
+		$inst->DailyImp = $this->return_xml_value($xml, $i, "DailyImp", array( "Schedule" ) );
+		$inst->DailyClicks = $this->return_xml_value($xml, $i, "DailyClicks", array( "Schedule" ) );
+		$inst->DailyUniq = $this->return_xml_value($xml, $i, "DailyUniq", array( "Schedule" ) );
+		$inst->SmoothOrAsap = $this->return_xml_value($xml, $i, "SmoothOrAsap", array( "Schedule" ) );
+		$inst->ImpOverrun = $this->return_xml_value($xml, $i, "ImpOverrun", array( "Schedule" ) );
+		$inst->CompanionPositions = $this->return_xml_value($xml, $i, "CompanionPosition", array( "Schedule", "CompanionPositions" ), true );
+		$inst->StrictCompanions = $this->return_xml_value($xml, $i, "StrictCompanions", array( "Schedule" ) );
+		$inst->ImpPerVisitor1 = $this->return_xml_value($xml, $i, "ImpPerVisitor", array( "Schedule", "PrimaryFrequency" ) );
+		$inst->ClickPerVisitor1 = $this->return_xml_value($xml, $i, "ClickPerVisitor", array( "Schedule", "PrimaryFrequency" ) );
+		$inst->FreqScope1 = $this->return_xml_value($xml, $i, "FreqScope", array( "Schedule", "PrimaryFrequency" ) );
+		$inst->ImpPerVisitor2 = $this->return_xml_value($xml, $i, "ImpPerVisitor", array( "Schedule", "SecondaryFrequency" ) );
+		$inst->FreqScope2 = $this->return_xml_value($xml, $i, "FreqScope", array( "Schedule", "SecondaryFrequency" ) );
+		$inst->HourOfDay = $this->return_xml_value($xml, $i, "Hour", array( "Schedule", "HourOfDay" ), true );
+		$inst->DayOfWeek = $this->return_xml_value($xml, $i, "Day", array( "Schedule", "DayOfWeek" ), true );
+		$inst->UserTimeZone = $this->return_xml_value($xml, $i, "UserTimeZone", array( "Schedule" ) );
+		$inst->Sections = $this->return_xml_value($xml, $i, "SectionId", array( "Schedule", "Sections" ), true );
+
+		// Pages
 		
 		// $inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
 		// $inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");
 		// $inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified");
 		// $inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified");
+	}
+
+	// OVERIDE STANDARD METHODS
+	/*
+		SEARCH - In Campaign, search criteria does not need the OAS header
+		segments that OAS has for ADD & UPDATE, we must exclude this. Also
+		the LIST action has a non-standard signature compared to the rest
+	*/
+	public function adxml() {
+	  $this->entity = $this->entity_def();
+
+	  $this->compact_xml_array($this->entity);
+	  
+	  // Customized Cleaning Rules
+	  $this->clean_instance($this->entity);
+	  
+	  $tmpxml = $this->build_xml($this->entity);
+
+	  if ( $this->getFunctionName() == "search" ) {
+	  	$excludes = array( "Overview", "Schedule", "Pages", "Target", "Billing" );
+	  	
+	  	// GET RID OF SEPARATION NODES
+	  	foreach ($excludes as $exclude) {
+				$tmpxml = str_replace("<".$exclude.">", "", $tmpxml);
+				$tmpxml = str_replace("</".$exclude.">", "", $tmpxml);
+	  	}
+	  }
+
+	  return $tmpxml;
+	}
+	
+	public function search(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Campaign action="list"><SearchCriteria>';
+		$xml .= $this->adxml();
+		$xml .= '</SearchCriteria></Campaign></Request></AdXML>';
+		
+		return $xml;
+	}
+
+	private function getFunctionName() {
+		$backtrace = debug_backtrace();
+		return $backtrace[2]['function'];
+	}
+	
+	/*
+		FIND - Uses the segment headers
+	*/
+	public function find($Id){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Campaign action="read">';
+		$xml .= '<Overview><Id>' . $Id . '</Id></Overview>';
+		$xml .= '</Campaign></Request></AdXML>';
+			
+		return $xml;
 	}
 }
 ?>
