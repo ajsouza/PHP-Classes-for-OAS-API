@@ -1,4 +1,15 @@
 <?php
+/*
+	 PHP LIB SPECIAL SETTINGS
+	 ========================
+	 VERBOSE_MODE   - Output each ADXML Request & Response
+	 DEBUGGER			  - Generate Error Logs (WORK IN PROGRESS)
+	 STD_LOG_FORMAT - Date/Time format for logs
+*/
+define("VERBOSE_MODE", false);
+define("DEBUGGER", false);
+define("STD_LOG_FORMAT", "j-m-y H:i:s");
+
 class OASWebService{
   public $user = null;
   public $pass = null;
@@ -11,8 +22,15 @@ class OASWebService{
   }
 
   public function request($adxml){
+  	if ( VERBOSE_MODE )
+  		$this->verbose_output("ADXML REQUEST", $adxml);
+
 		$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
 		$message = DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
+
+  	if ( VERBOSE_MODE )
+  		$this->verbose_output("ADXML RESPONSE", $message->saveXML());
+
 		$rtmsg = $message->getElementsByTagName('Exception');
 		
 		if($rtmsg->length != 0){
@@ -23,8 +41,16 @@ class OASWebService{
   }
 
   public function requestXML($adxml){
+  	if ( VERBOSE_MODE )
+  		$this->verbose_output("ADXML REQUEST", $adxml);
+
 		$client = new SoapClient($this->wsdl, array( 'connection_timeout' => 120, 'max_execution_time' => 120));
-		return DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
+		$message = DOMDocument::loadXML($client->OASXmlRequest($this->account, $this->user, $this->pass, $adxml));
+
+  	if ( VERBOSE_MODE )
+  		$this->verbose_output("ADXML RESPONSE", $message->saveXML());
+
+		return $message;
   }
   
   public function create($oasentity){
@@ -42,6 +68,11 @@ class OASWebService{
   public function search($oasentity){
 		$oasentity->build_search_results($this->requestXML($oasentity->search()), $this);
   }
+
+  private function verbose_output($msgtype, $message){
+  	echo "[== ".date(STD_LOG_FORMAT)." - $msgtype ==]\n";
+  	echo "$message\n\n";
+  }
 }
 
 abstract class OASEntity{
@@ -52,11 +83,6 @@ abstract class OASEntity{
 	public $WhenCreated = null;
 	public $WhoModified = null;
 	public $WhenModified = null;
-
-	// abstract public function create();
-	// abstract public function update();
-	// abstract public function search();
-	// abstract public function find($Id);
 	
 	abstract public function entity_def();
 	abstract public function clean_instance(&$inst);

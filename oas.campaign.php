@@ -10,6 +10,7 @@ class campaign extends OASEntity {
 	public $Description = null;
 	public $CampaignManager = null;
 	public $ProductId = null;
+	public $Status = null;
 	public $CampaignGroups = null;
 	public $CompetitiveCategories = null;
 	public $ExternalUsers = null;
@@ -65,6 +66,13 @@ class campaign extends OASEntity {
 	public $SearchType = null;
 	public $SearchTerm = null;
 	public $Cookie = null;
+	public $AgeFrom = null;
+	public $AgeTo = null;
+	public $Gender = null;
+	public $IncomeFrom = null;
+	public $IncomeTo = null;
+	public $SubscriberCode = null;
+	public $PreferenceFlags = null;
 
 	// Exclude - For now we're not supporting this
 
@@ -97,6 +105,7 @@ class campaign extends OASEntity {
 			"Description" => &$this->Description,
 			"CampaignManager" => &$this->CampaignManager,
 			"ProductId" => &$this->ProductId,
+			"Status" => &$this->Status,
 			"CampaignGroups" => array(
 				"CampaignGroupId" => &$this->CampaignGroups,
 				"@arrCampaignGroupId" => true
@@ -216,7 +225,14 @@ class campaign extends OASEntity {
 				),
 			"SearchType" => &$this->SearchType,
 			"SearchTerm" => &$this->SearchTerm,
-			"Cookie" => &$this->Cookie
+			"Cookie" => &$this->Cookie,
+			"AgeFrom" => &$this->AgeFrom,
+			"AgeTo" => &$this->AgeTo,
+			"Gender" => &$this->Gender,
+			"IncomeFrom" => &$this->IncomeFrom,
+			"IncomeTo" => &$this->IncomeTo,
+			"SubscriberCode" => &$this->SubscriberCode,
+			"PreferenceFlags" => &$this->PreferenceFlags
 			),
 		"Billing" => array(
 			"Cpm" => &$this->Cpm,
@@ -325,11 +341,16 @@ class campaign extends OASEntity {
 		$inst->Description = $this->return_xml_value($xml, $i, "Description", array( "Overview" ) );
 		$inst->CampaignManager = $this->return_xml_value($xml, $i, "CampaignManager", array( "Overview" ) );
 		$inst->ProductId = $this->return_xml_value($xml, $i, "ProductId", array( "Overview" ) );
+		$inst->Status = $this->return_xml_value($xml, $i, "Status", array( "Overview" ) );
 		$inst->CampaignGroups = $this->return_xml_value($xml, $i, "CampaignGroupId", array( "Overview", "CampaignGroups" ), true );
 		$inst->CompetitiveCategories = $this->return_xml_value($xml, $i, "CompetitiveCategoryId", array( "Overview", "CompetitiveCategories" ), true );
 		$inst->ExternalUsers = $this->return_xml_value($xml, $i, "UserId", array( "Overview", "ExternalUsers" ), true );
 		$inst->InternalQuickReport = $this->return_xml_value($xml, $i, "InternalQuickReport", array( "Overview" ) );
 		$inst->ExternalQuickReport = $this->return_xml_value($xml, $i, "ExternalQuickReport", array( "Overview" ) );
+		$inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated", array( "Overview" ) );
+		$inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated", array( "Overview" ) );
+		$inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified", array( "Overview" ) );
+		$inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified", array( "Overview" ) );
 
 		// Schedule
 		$inst->Impressions = $this->return_xml_value($xml, $i, "Impressions", array( "Schedule" ) );
@@ -359,11 +380,50 @@ class campaign extends OASEntity {
 		$inst->Sections = $this->return_xml_value($xml, $i, "SectionId", array( "Schedule", "Sections" ), true );
 
 		// Pages
+		$inst->Pages = $this->return_xml_value($xml, $i, "Url", array( "Pages" ), true );
+
+		// Target
+		$inst->ExcludeTargets = $this->return_xml_value($xml, $i, "ExcludeTargets", array( "Target" ) );
+		$inst->TopLevelDomain = $this->return_xml_value($xml, $i, "Code", array( "Target", "TopLevelDomain" ), true );
+		$inst->Domain = $this->return_xml_value($xml, $i, "Domain", array( "Target" ) );
+		$inst->Bandwidth = $this->return_xml_value($xml, $i, "Code", array( "Target", "Bandwidth" ), true );
+		$inst->Continent = $this->return_xml_value($xml, $i, "Code", array( "Target", "Continent" ), true );
+		$inst->Country = $this->return_xml_value($xml, $i, "Code", array( "Target", "Country" ), true );
+		$inst->State = $this->return_xml_value($xml, $i, "Code", array( "Target", "State" ), true );
+		$inst->AreaCode = $this->return_xml_value($xml, $i, "Code", array( "Target", "AreaCode" ), true );
+		$inst->Msa = $this->return_xml_value($xml, $i, "Code", array( "Target", "Msa" ), true );
+		$inst->Dma = $this->return_xml_value($xml, $i, "Code", array( "Target", "Dma" ), true );
+		$inst->City = $this->return_xml_value($xml, $i, "Code", array( "Target", "City" ), true );
+		$inst->Zip = $this->return_xml_value($xml, $i, "Code", array( "Target", "Zip" ), true );
+		$inst->Os = $this->return_xml_value($xml, $i, "Code", array( "Target", "Os" ), true );
+		$inst->Browser = $this->return_xml_value($xml, $i, "Code", array( "Target", "Browser" ), true );
+		$inst->BrowserV = $this->return_xml_value($xml, $i, "Code", array( "Target", "BrowserV" ), true );
+		$inst->SearchType = $this->return_xml_value($xml, $i, "SearchType", array( "Target" ) );
+		$inst->SearchTerm = $this->return_xml_value($xml, $i, "SearchTerm", array( "Target" ) );
+		$inst->Cookie = $this->return_xml_value($xml, $i, "Cookie", array( "Target" ) );
+		$inst->AgeFrom = $this->return_xml_value($xml, $i, "AgeFrom", array( "Target" ) );
+		$inst->AgeTo = $this->return_xml_value($xml, $i, "AgeTo", array( "Target" ) );
+		$inst->Gender = $this->return_xml_value($xml, $i, "Gender", array( "Target" ) );
+		$inst->IncomeFrom = $this->return_xml_value($xml, $i, "IncomeFrom", array( "Target" ) );
+		$inst->IncomeTo = $this->return_xml_value($xml, $i, "IncomeTo", array( "Target" ) );
+		$inst->SubscriberCode = $this->return_xml_value($xml, $i, "SubscriberCode", array( "Target" ) );
+		$inst->PreferenceFlags = $this->return_xml_value($xml, $i, "PreferenceFlags", array( "Target" ) );
+
+		// Billing
+		$inst->Cpm = $this->return_xml_value($xml, $i, "Cpm", array( "Billing" ) );
+		$inst->Cpc = $this->return_xml_value($xml, $i, "Cpc", array( "Billing" ) );
+		$inst->Cpa = $this->return_xml_value($xml, $i, "Cpa", array( "Billing" ) );
+		$inst->FlatRate = $this->return_xml_value($xml, $i, "FlatRate", array( "Billing" ) );
+		$inst->Tax = $this->return_xml_value($xml, $i, "Tax", array( "Billing" ) );
+		$inst->AgencyCommission = $this->return_xml_value($xml, $i, "AgencyCommission", array( "Billing" ) );
+		$inst->PaymentMethod = $this->return_xml_value($xml, $i, "PaymentMethod", array( "Billing" ) );
+		$inst->PurchaseOrder = $this->return_xml_value($xml, $i, "PurchaseOrder", array( "Billing" ) );
+		$inst->SalesRepresentative = $this->return_xml_value($xml, $i, "SalesRepresentative", array( "Billing" ) );
+		$inst->CommissionPercent = $this->return_xml_value($xml, $i, "CommissionPercent", array( "Billing" ) );
+		$inst->Notes = $this->return_xml_value($xml, $i, "Notes", array( "Billing" ) );
+		$inst->IsYieldManaged = $this->return_xml_value($xml, $i, "IsYieldManaged", array( "Billing" ) );
+		$inst->BillTo = $this->return_xml_value($xml, $i, "BillTo", array( "Billing" ) );
 		
-		// $inst->WhoCreated = $this->return_xml_value($xml, $i, "WhoCreated");
-		// $inst->WhenCreated = $this->return_xml_value($xml, $i, "WhenCreated");
-		// $inst->WhoModified = $this->return_xml_value($xml, $i, "WhoModified");
-		// $inst->WhenModified = $this->return_xml_value($xml, $i, "WhenModified");
 	}
 
 	// OVERIDE STANDARD METHODS

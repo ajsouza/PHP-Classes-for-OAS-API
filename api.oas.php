@@ -1,4 +1,6 @@
 <?php
+// TORONTO [AN AWESOME, WONDERFUL, MAGNIFICENT CITY] TIME
+date_default_timezone_set('America/Toronto');
 
 // FILES & PATHS
 define("PATH_API_FILES", "");
