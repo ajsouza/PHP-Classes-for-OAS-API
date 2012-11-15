@@ -464,8 +464,6 @@ class campaign extends OASEntity {
 		return $backtrace[2]['function'];
 	}
 	
-	/*
-	*/
 	public function find($Id){
 		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="read">';
 		$xml .= '<Overview><Id>' . $Id . '</Id></Overview>';

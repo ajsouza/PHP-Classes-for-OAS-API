@@ -43,29 +43,47 @@ class creative extends OASEntity {
 			IMAGETYPE_SWF => '.swf' );
 
 		try {
-			if ( $html != null ) {
+			// DEAL WITH IMAGE or COMPONENT
+			if ( $file != "" ) {
 				$exifType = exif_imagetype( $file );
+
 				if (!isset($types[$exifType])) {
 					throw new Exception("$file is an unsupported file type", 1);
 				} else {
 					$data['fileName'] = basename($file);
 					$data['contentType'] = mime_content_type($file);
-					$data['fileType'] = "component";
+					if ( $html == null ) {
+						$data['fileType'] = "creative";
+					} else {
+						$data['fileType'] = "component";
+					}
 					$data['content'] = base64_encode(file_get_contents($file));
 				}
-			} else {
+
+				$tag = str_replace("[**CONTENT**]", $data['content'], FILE_TAG);
+				$tag = str_replace("[**FILE_NAME**]", $data['fileName'], $tag);
+				$tag = str_replace("[**FILE_TYPE**]", $data['fileType'], $tag);
+				$tag = str_replace("[**CONTENT_TYPE**]", $data['contentType'], $tag);
+
+				$this->Files .= $tag;
+			}
+
+			// DEAL WITH HTML or CREATIVE if Exists
+			if ( $html != null ) {
+				$data = array();
+
 				$data['fileName'] = "template.html";
 				$data['contentType'] = "text/html";
 				$data['fileType'] = "creative";
 				$data['content'] = base64_encode($html);
+
+				$tag = str_replace("[**CONTENT**]", $data['content'], FILE_TAG);
+				$tag = str_replace("[**FILE_NAME**]", $data['fileName'], $tag);
+				$tag = str_replace("[**FILE_TYPE**]", $data['fileType'], $tag);
+				$tag = str_replace("[**CONTENT_TYPE**]", $data['contentType'], $tag);
+
+				$this->Files .= $tag;
 			}
-
-			$tag = str_replace("[**CONTENT**]", $data['content'], FILE_TAG);
-			$tag = str_replace("[**FILE_NAME**]", $data['fileName'], $tag);
-			$tag = str_replace("[**FILE_TYPE**]", $data['fileType'], $tag);
-			$tag = str_replace("[**CONTENT_TYPE**]", $data['contentType'], $tag);
-
-			$this->Files .= $tag;
 
 		} catch (Exception $e) {
 			
@@ -159,7 +177,22 @@ class creative extends OASEntity {
 		FIND   - Different AdXML structure from Database Items
 		CREATE - Different AdXML structure from Database Items
 		UPDATE - Different AdXML structure from Database Items
+		ADXML  - Add the creative files
 	*/
+	public function adxml() {
+	  $this->entity = $this->entity_def();
+	  
+	  $this->compact_xml_array($this->entity);
+	  
+	  // Customized Cleaning Rules
+	  $this->clean_instance($this->entity);
+
+	  $temp = $this->build_xml($this->entity);
+		$temp = str_replace(FILE_MARKER, $this->Files, $temp);
+
+	  return $temp;
+	}
+
 	public function find($Id){
 		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="read">';
 		$xml .= '<Id>' . $Id . '</Id>';
