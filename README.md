@@ -7,10 +7,10 @@ Currently this PHP library has support for the following entities;
 * Advertiser
 * Agency
 * Campaign Group
+* Campaign
 
 The entities we plan to support, they are currently a work in progress;
 * Insertion Order
-* Campaign
 * Creative
 * Pages
 * Section

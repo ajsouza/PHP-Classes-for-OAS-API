@@ -109,18 +109,18 @@ class campaign extends OASEntity {
 			"CampaignGroups" => array(
 				"CampaignGroupId" => &$this->CampaignGroups,
 				"@arrCampaignGroupId" => true
-				),
+			),
 			"CompetitiveCategories" => array(
 				"CompetitiveCategoryId" => &$this->CompetitiveCategories,
 				"@arrCompetitiveCategoryId" => true
-				),
-			  "ExternalUsers" => array(
-				"UserId" => &$this->ExternalUsers,
-				"@arrUserId" => true
-			  ),
+			),
+			"ExternalUsers" => array(
+					"UserId" => &$this->ExternalUsers,
+					"@arrUserId" => true
+			),
 			"InternalQuickReport" => &$this->InternalQuickReport,
 			"ExternalQuickReport" => &$this->ExternalQuickReport
-			),
+		),
 		"Schedule" => array(
 			"Impressions" => &$this->Impressions,
 			"Clicks" => &$this->Clicks,
@@ -431,6 +431,10 @@ class campaign extends OASEntity {
 		SEARCH - In Campaign, search criteria does not need the OAS header
 		segments that OAS has for ADD & UPDATE, we must exclude this. Also
 		the LIST action has a non-standard signature compared to the rest
+
+		FIND - Uses the segment headers
+		CREATE - Different AdXML structure from Database Items
+		UPDATE - Different AdXML structure from Database Items
 	*/
 	public function adxml() {
 	  $this->entity = $this->entity_def();
@@ -454,14 +458,6 @@ class campaign extends OASEntity {
 
 	  return $tmpxml;
 	}
-	
-	public function search(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Campaign action="list"><SearchCriteria>';
-		$xml .= $this->adxml();
-		$xml .= '</SearchCriteria></Campaign></Request></AdXML>';
-		
-		return $xml;
-	}
 
 	private function getFunctionName() {
 		$backtrace = debug_backtrace();
@@ -469,13 +465,36 @@ class campaign extends OASEntity {
 	}
 	
 	/*
-		FIND - Uses the segment headers
 	*/
 	public function find($Id){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Campaign action="read">';
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="read">';
 		$xml .= '<Overview><Id>' . $Id . '</Id></Overview>';
-		$xml .= '</Campaign></Request></AdXML>';
+		$xml .= '</'.$this->main_tag.'></Request></AdXML>';
 			
+		return $xml;
+	}
+	
+	public function search(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="list"><SearchCriteria>';
+		$xml .= $this->adxml();
+		$xml .= '</SearchCriteria></'.$this->main_tag.'></Request></AdXML>';
+		
+		return $xml;
+	}
+
+	public function create(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="add">';
+		$xml .= $this->adxml();
+		$xml .= '</'.$this->main_tag.'></Request></AdXML>';
+		
+		return $xml;
+	}
+	
+	public function update(){
+		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="update">';
+		$xml .= $this->adxml();
+		$xml .= '</'.$this->main_tag.'></Request></AdXML>';
+		
 		return $xml;
 	}
 }
