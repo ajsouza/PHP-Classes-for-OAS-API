@@ -6,7 +6,7 @@
 	 DEBUGGER			  - Generate Error Logs (WORK IN PROGRESS)
 	 STD_LOG_FORMAT - Date/Time format for logs
 */
-define("VERBOSE_MODE", false);
+define("VERBOSE_MODE", true);
 define("DEBUGGER", false);
 define("STD_LOG_FORMAT", "j-m-y H:i:s");
 
@@ -67,6 +67,14 @@ class OASWebService{
 
   public function search($oasentity){
 		$oasentity->build_search_results($this->requestXML($oasentity->search()), $this);
+  }
+
+  public function change_status($oasentity, $status){
+		return $this->request($oasentity->change_status($oasentity->Id, $status));
+  }
+
+  public function RLC(){
+		return $this->request('<AdXML><Request type="Campaign"><Campaign action="run"><RunLiveCampaigns/></Campaign></Request></AdXML>');
   }
 
   private function verbose_output($msgtype, $message){

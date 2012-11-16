@@ -52,10 +52,10 @@ class creative extends OASEntity {
 				} else {
 					$data['fileName'] = basename($file);
 					$data['contentType'] = mime_content_type($file);
-					if ( $html == null ) {
-						$data['fileType'] = "creative";
-					} else {
+					if ( $html != null || $this->Files != null ) {
 						$data['fileType'] = "component";
+					} else {
+						$data['fileType'] = "creative";
 					}
 					$data['content'] = base64_encode(file_get_contents($file));
 				}
@@ -188,7 +188,20 @@ class creative extends OASEntity {
 	  $this->clean_instance($this->entity);
 
 	  $temp = $this->build_xml($this->entity);
-		$temp = str_replace(FILE_MARKER, $this->Files, $temp);
+
+	  if ( $this->getFunctionName() == "create" ) {
+			$temp = str_replace(FILE_MARKER, $this->Files, $temp);
+		} elseif ( $this->getFunctionName() == "update" ) {
+			$xml = '<Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="update">';
+			$xml .= str_replace(FILE_MARKER, "", $temp);
+			$xml .= '</'.$this->main_tag.'></Request>';
+			if ( $this->Files != null ) {
+				$template = '<Request type="'.$this->main_tag.'"><Creative action="upload"><CampaignId>'.$this->CampaignId.'</CampaignId>'.
+										'<Id>'.$this->Id.'</Id>'.$this->Files.'</Creative></Request>';
+				$temp = "<AdXML>".$xml.$template."</AdXML>";
+			}
+			else { $temp = str_replace(FILE_MARKER, "", $temp); } 			
+		}
 
 	  return $temp;
 	}
@@ -218,11 +231,12 @@ class creative extends OASEntity {
 	}
 	
 	public function update(){
-		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="update">';
-		$xml .= $this->adxml();
-		$xml .= '</'.$this->main_tag.'></Request></AdXML>';
-		
-		return $xml;
+		return $this->adxml();
+	}
+
+	private function getFunctionName() {
+		$backtrace = debug_backtrace();
+		return $backtrace[2]['function'];
 	}
 }
 ?>

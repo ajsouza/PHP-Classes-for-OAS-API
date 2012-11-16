@@ -94,6 +94,11 @@ class campaign extends OASEntity {
 	// API CONFIG VARS
 	public $main_id = "Id";
 	public $main_tag = "Campaign";
+
+	public function change_status($id, $status){
+		return '<AdXML><Request type="Campaign"><Campaign action="update"><Overview><Id>'.$id.
+					 '</Id><Status>'.$status.'</Status></Overview></Campaign></Request></AdXML>';
+	}
 	
 	public function entity_def() {
 	  $inst = array(
