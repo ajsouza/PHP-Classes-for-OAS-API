@@ -9,11 +9,11 @@ Currently this PHP library has support for the following entities;
 * Campaign Group
 * Campaign
 * Creative
+* Section
 
 The entities we plan to support, they are currently a work in progress;
 * Insertion Order
 * Pages
-* Section
 * Site
 * Site Group
 * Notification

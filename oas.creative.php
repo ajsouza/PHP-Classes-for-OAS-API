@@ -148,7 +148,7 @@ class creative extends OASEntity {
 		$inst->ClickUrl = $this->return_xml_value($xml, $i, "ClickUrl");
 		$inst->Positions = $this->return_xml_value($xml, $i, "Position", array( "Positions" ), true );
 		$inst->CreativeTypesId = $this->return_xml_value($xml, $i, "CreativeTypesId");
-		$inst->RedirectUrl = $this->return_xml_value($xml, $i, "RedirectUrl");
+		//$inst->RedirectUrl = $this->return_xml_value($xml, $i, "RedirectUrl");
 		$inst->Display = $this->return_xml_value($xml, $i, "Display");
 		$inst->Height = $this->return_xml_value($xml, $i, "Height");
 		$inst->Width = $this->return_xml_value($xml, $i, "Width");
@@ -200,15 +200,42 @@ class creative extends OASEntity {
 										'<Id>'.$this->Id.'</Id>'.$this->Files.'</Creative></Request>';
 				$temp = "<AdXML>".$xml.$template."</AdXML>";
 			}
-			else { $temp = str_replace(FILE_MARKER, "", $temp); } 			
 		}
+
+		$temp = str_replace(FILE_MARKER, "", $temp);
 
 	  return $temp;
 	}
+	
+	public function build_search_results($xml, $websvc){
+	  $nodeList = $xml->getElementsByTagName($this->main_tag);
+		$tmpxml = null;
 
-	public function find($Id){
+		$nodeListLength = $nodeList->length;
+		for ($i = 0; $i < $nodeListLength -1; $i ++) {
+			$tmpxml .= $this->find($this->return_xml_value($xml, $i, "Id"),$this->return_xml_value($xml, $i, "CampaignId"));
+			$tmpxml = str_replace("<AdXML>", "", $tmpxml);
+			$tmpxml = str_replace("</AdXML>", "", $tmpxml);
+		}
+		
+		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
+		$xml = $websvc->requestXML($tmpxml);
+
+		// echo $xml->saveXML(); // USE FOR DEBUG
+		$nodes = $xml->getElementsByTagName($this->main_tag);
+		$nodeListLength = $nodes->length;
+		for ($i = 0; $i < $nodeListLength; $i ++)
+		{
+			$classname = strtolower($this->main_tag);
+			$tmp = new $classname();
+			$tmp->map($xml, $tmp, $i);
+			$this->instances[] = $tmp;
+		}
+	}
+
+	public function find($Id, $CampaignId){
 		$xml = '<AdXML><Request type="'.$this->main_tag.'"><'.$this->main_tag.' action="read">';
-		$xml .= '<Id>' . $Id . '</Id>';
+		$xml .= '<CampaignId>' . $CampaignId . '</CampaignId><Id>' . $Id . '</Id>';
 		$xml .= '</'.$this->main_tag.'></Request></AdXML>';
 			
 		return $xml;
