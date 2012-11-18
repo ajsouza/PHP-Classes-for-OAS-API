@@ -10,10 +10,10 @@ Currently this PHP library has support for the following entities;
 * Campaign
 * Creative
 * Section
+* Page
 
 The entities we plan to support, they are currently a work in progress;
 * Insertion Order
-* Pages
 * Site
 * Site Group
 * Notification

@@ -116,7 +116,7 @@ abstract class OASEntity{
 	
 	public function find($Id){
 		$xml = '<AdXML><Request type="'.$this->main_tag.'"><Database action="read"><'.$this->main_tag.'>';
-		$xml .= '<Id>' . $Id . '</Id>';
+		$xml .= '<'.$this->main_id.'>' . $Id . '</'.$this->main_id.'>';
 		$xml .= '</'.$this->main_tag.'></Database></Request></AdXML>';
 			
 		return $xml;
