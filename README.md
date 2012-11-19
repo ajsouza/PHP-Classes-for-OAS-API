@@ -1,5 +1,7 @@
 #PHP Library for Open AdStream
-**In BETA currently, not yet a stable release, we may still change object structures, properties and methods.** This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional info forthcoming on my [blog](http://openadstream.blogspot.com/)
+**In BETA currently, not yet a stable release, we may still tweak object structures, properties and methods.** This is an attempt to create a full PHP library for 247Media's Open AdStream. The idea is to simplify development cycle by allow PHP developers to focus less on parsing XML and more on getting stuff done. Additional information resources:
+* [Wiki](https://github.com/ajsouza/PHP-Classes-for-OAS-API/wiki) : OAS PHP Library Documentation.
+* [Blog](http://openadstream.blogspot.com/) : Technical blog, cool stuff you can develop.
 
 Entities
 ========
@@ -11,12 +13,11 @@ Currently this PHP library has support for the following entities;
 * Creative
 * Section
 * Page
-
-The entities we plan to support, they are currently a work in progress;
-* Insertion Order
 * Site
 * Site Group
-* Notification
+* Product
+* Insertion Order - WiP (Work in Progress)
+* Notification - WiP
 
 Methods
 =======
@@ -38,31 +39,35 @@ The example below shows how you would use the Advertiser entity to retrieve all 
 <?php
 include "api.oas.php";
 
+/* 
+  Just for clarity of what to pass to Connect
+  I created the above variables (should be self explanatory)
+*/
 $wsdl = "https://[YOUR API DOMAIN]/oasapi/OaxApi?wsdl";
 $account = "[YOUR OAS ACCOUNT]";
 $user = "[YOUR USER]";
 $pass = "[YOUR PASS]";
 
 /* 
-  Just for clarity of what to pass to Connect
-  I created the above variables (should be self explanatory)
+  Instantiate a connection
 */
 $API = new OAS();
 $OAS = $API->Connect($wsdl, $account, $user, $pass);
 
 /* 
   Create an OAS Entity {advertiser, agency, campaign, 
-  campaign group, product, etc...}
+  campaign group, product, etc...} - and develop cool
+  products!
 */
-$Advertiser = $OAS->Entity("advertiser");
-$Advertiser->Organization = "A";
+$Advertisers = $OAS->Entity("advertiser");
+$Advertisers->Organization = "A";
 
-$OAS->search($Advertiser);
-foreach( $Advertiser->instances as $inst ) {
-	echo $inst->Id . "\n";
-	echo $inst->Organization . "\n";
-	echo $inst->WhoCreated . "\n";
-	echo $inst->WhenCreated . "\n\n";
+$OAS->search($Advertisers);
+foreach( $Advertisers->instances as $Advertiser ) {
+	echo $Advertiser->Id . "\n";
+	echo $Advertiser->Organization . "\n";
+	echo $Advertiser->WhoCreated . "\n";
+	echo $Advertiser->WhenCreated . "\n\n";
 }
 ?>
 ```
