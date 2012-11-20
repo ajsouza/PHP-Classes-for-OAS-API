@@ -6,7 +6,7 @@
 	 DEBUGGER			  - Generate Error Logs (WORK IN PROGRESS)
 	 STD_LOG_FORMAT - Date/Time format for logs
 */
-define("VERBOSE_MODE", true);
+define("VERBOSE_MODE", false);
 define("DEBUGGER", false);
 define("STD_LOG_FORMAT", "j-m-y H:i:s");
 
