@@ -8,16 +8,17 @@ Entities
 Currently this PHP library has support for the following entities;
 * Advertiser
 * Agency
-* Campaign Group
 * Campaign
+* Campaign Group
 * Creative
-* Section
+* Insertion Order
 * Page
+* Product
 * Site
 * Site Group
-* Product
-* Insertion Order - WiP (Work in Progress)
-* Notification - WiP
+* Section
+
+I decided to **drop development of Notification temporarily**, the object is less structured (than other AdXML objects) and requires a little more analysis before we feel confident to suport it.
 
 Methods
 =======
