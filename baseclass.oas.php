@@ -1,24 +1,17 @@
 <?php
-/*
-	 PHP LIB SPECIAL SETTINGS
-	 ========================
-	 VERBOSE_MODE   - Output each ADXML Request & Response
-	 DEBUGGER			  - Generate Error Logs (WORK IN PROGRESS)
-	 STD_LOG_FORMAT - Date/Time format for logs
-*/
-define("VERBOSE_MODE", false);
-define("DEBUGGER", false);
-define("STD_LOG_FORMAT", "j-m-y H:i:s");
 
 class OASWebService{
   public $user = null;
   public $pass = null;
   public $account = null;
+
+	public $log;
   
   private $wsdl;
 
   function __construct($url){
      $this->wsdl = $url;
+     $this->log = new LogGenerator();
   }
 
   public function request($adxml){
@@ -77,9 +70,11 @@ class OASWebService{
 		return $this->request('<AdXML><Request type="Campaign"><Campaign action="run"><RunLiveCampaigns/></Campaign></Request></AdXML>');
   }
 
-  private function verbose_output($msgtype, $message){
-  	echo "[== ".date(STD_LOG_FORMAT)." - $msgtype ==]\n";
-  	echo "$message\n\n";
+  protected function verbose_output($msgtype, $message){
+  	$tmpmsg = "[== $msgtype ==]\n";
+  	$tmpmsg .=  "$message\n\n";
+
+  	$this->log->LogMe( VERBOSE, $tmpmsg );
   }
 }
 
@@ -186,7 +181,6 @@ abstract class OASEntity{
 		$tmpxml = "<AdXML>" . $tmpxml . "</AdXML>";
 		$xml = $websvc->requestXML($tmpxml);
 
-		// echo $xml->saveXML(); // USE FOR DEBUG
 		$nodes = $xml->getElementsByTagName($this->main_tag);
 		$nodeListLength = $nodes->length;
 		for ($i = 0; $i < $nodeListLength; $i ++)
