@@ -1,13 +1,12 @@
 <?php
 
 class OASWebService{
+  public $wsdl;
   public $user = null;
   public $pass = null;
   public $account = null;
-
-	public $log;
   
-  private $wsdl;
+	public $log;
 
   function __construct($url){
      $this->wsdl = $url;
