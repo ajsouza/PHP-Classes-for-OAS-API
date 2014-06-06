@@ -60,7 +60,7 @@ $OAS = $API->Connect($wsdl, $account, $user, $pass);
   campaign group, product, etc...} - and develop cool
   products!
 */
-$Advertisers = $OAS->Entity("advertiser");
+$Advertisers = $API->Entity("advertiser");
 $Advertisers->Organization = "A";
 
 $OAS->search($Advertisers);
